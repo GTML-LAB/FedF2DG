@@ -26,7 +26,7 @@ If you find our work is useful for your work, please kindly cite our paper.
 
 ## Run the script
 
-###1. run federated_learning_stage.sh
+### 1. run federated_learning_stage.sh
 Pre-train model parameters
 ```
 sh federated_learning_stage.sh
@@ -53,16 +53,15 @@ nohup python -u experiments.py --model=resnet \
     --label_noise_type='None' \
     --label_noise_rate=0.0 \
     --init_seed=0 >nohup.out&
-	
 ```
-###2. run adaptive_data_generation_stage.sh
+### 2. run adaptive_data_generation_stage.sh
 ```
 sh adaptive_data_generation_stage.sh
 ```
 ```bash
 nohup python -u experiments.py --model=resnet \
     --dataset=cifar10 \
-    --alg=Adaptive Data Generation \
+    --alg=adaptive_data_generation \
     --lr=0.01 \
     --batch-size=64 \
     --n_parties=10 \
@@ -82,45 +81,95 @@ nohup python -u experiments.py --model=resnet \
     --num_batch=10 \
     --cig_scale=0.0 \
     --init_seed=0 >nohup.out&
-	
-
-	
+```
+### 3. run knowledge_distillation_stage.sh
+```
+sh knowledge_distillation_stage.sh
+```
+```bash
+nohup python -u experiments.py --model=resnet \
+    --dataset=cifar10 \
+    --alg=knowledge_distillation \
+    --batch-size=64 \
+    --n_parties=10 \
+    --mu=0.01 \
+    --rho=0.9 \
+    --reg=1e-3 \
+    --partition=noniid-labeldir \
+    --beta=0.05\
+    --device='cuda:0' \
+    --logdir='./logs/test/' \
+    --noise=0 \
+    --sample=1 \
+    --label_noise_type='None' \
+    --label_noise_rate=0.0 \
+    --kd_epochs = 30\
+    --kd_lr = 0.01\
+    --weight_decay = 1e-4\
+    --init_seed=0 >nohup.out&
+```
+### 4. run Rcompete.sh
+Generate diverse samples and perform knowledge distillation.
+```
+sh Rcompete.sh
+```
+```bash
+nohup python -u experiments.py --model=resnet \
+    --dataset=cifar10 \
+    --alg=knowledge_distillation_Rcompete \
+    --lr=0.01 \
+    --batch-size=64 \
+    --epochs=5 \
+    --n_parties=10 \
+    --mu=0.01 \
+    --rho=0.9 \
+    --comm_round=10 \
+    --reg=1e-5 \
+    --partition=noniid-labeldir \
+    --beta=0.05 \
+    --device='cuda:0' \
+    --datadir='/home/zsr/data/' \
+    --logdir='./logs/test/' \
+    --noise=0 \
+    --sample=1 \
+    --label_noise_type='None' \
+    --label_noise_rate=0.0 \
+    --bs=256 \
+    --num_batch=1 \
+    --cig_scale=10.0 \
+    --kd_epochs = 30\
+    --kd_lr = 0.01\
+    --weight_decay = 1e-4\
+    --init_seed=0 >nohup.out&
 ```
 ## Parameters Description
 
 #### 1. Basic Parameters
 
+>+ **init_seed**: seed for reproducibility, default is 0
+>+ **alg**: traning method, choices in {'fedavg', 'fedprox', 'scaffold', 'fednova', 'moon'}, default is 'fedavg'
+>+ **dataset**: training dataset, choices in {'CIFAR10', 'CIFAR100','SVHN'}, default is 'CIFAR10'
+>+ **lr**: client learning rate, default is 0.01
+>+ **epochs**: number of local epochs, default is 5
+>+ **n_parties**: the number of the clients, default is 100
+>+ **sample**: sample ratio for each communication round
+>+ **comm_round**: number of communication rounds, default is 100
+>+ **datadir**: data directory path
+>+ **logdir**: log directory path
+>+ **beta**: the parameter for the dirichlet distribution for data partitioning
+>+ **mu**: mu parameter in FedProx and MOON, default is 1e-3
 
->+ **seed**: seed for reproducibility, default is 1024
->+ **method**: traning method, choices in {'FedAvg', 'FedProx', 'FedDyn', 'SCAFFOLD', 'MOON', 'FedFTG', 'FedProxGAN', 'FedDynGAN', 'SCAFFOLDGAN', 'MOONGAN'}, default is 'FedDyn'
->+ **dataset**: training dataset, choices in {'CIFAR10', 'CIFAR100'}, default is 'CIFAR10'
->+ **exp_name**: experiment name, input whatever you want, default is 'Federated'
->+ **save**: bool value for saving the training results or not, default is False
->+ **savepath**: directory to save exp results, default is 'result/'
->+ **print_freq**: print info frequency(ACC) on each client locally, default is 2
->+ **save_period**: the frequency of saving the checkpoint, default is 200
+#### 2. Data Generation Parameters
+>+ **bs**: batch size of generated data
+>+ **num_batch**: number of batch
+>+ **iters_mi**: number of iterations for model inversion
+>+ **cig_scale**: competition score
+>+ **competition score**: lr for deep inversion
+>+ **di_var_scale**: TV L2 regularization coefficient
+>+ **di_l2_scale**: weight for BN regularization statistic
 
-#### 2. Data Segmentation Parameters
-
->+ **n_client**: the number of the clients, default is 100
->+ **rule**: split rule of dataset, choices in {iid, Dirichlet}
->+ **alpha**: control the non-iidness of dataset, the parameter of Dirichlet, default is 0.6. Please ignore this parameter if rule is 'iid'
->+ **sgm**: the unbalanced parameter by using lognorm distribution, sgm=0 indicates balanced
-
-#### 3. Training Parameters
-
->+ **localE**: number of local epochs, default is 5
->+ **comm_amount**: number of communication rounds, default is 1000
->+ **active_frac**: the fraction of active clients per communication round, default is 1.0, indicating all the clients participating in the communications
->+ **bs**: batch size on each client, default is 50
->+ **n_minibatch**: the number of minibatch size in SCAFFOLD, default is 50
->+ **lr**: client learning rate, default is 0.1
->+ **momentum**: local (client) momentum factor, default is 0.0
->+ **weight_decay**: local (client) weight decay factor, default is 1e-3
->+ **lr_decay**: local (client) learning rate decay factor, default is 0.998
->+ **coef_alpha**:alpha coefficient in FedDyn, default is 1e-2
->+ **mu**: mu parameter in FedProx and MOON, default is 1e-4
->+ **tau**: mu parameter in MOON, default is 1
->+ **sch_step**: the learning rate scheduler step, default is 1
->+ **sch_gamma**: the learning rate scheduler gamma, default is 1.0
+#### 3. Knowledge Distillation Parameters
+>+ **kd_epochs**: number of total epochs to run
+>+ **kd_lr**: kd learning rate
+>+ **weight_decay**: weight decay
 
