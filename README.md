@@ -26,7 +26,7 @@ If you find our work is useful for your work, please kindly cite our paper.
 
 ## Run the script
 
-####1. run federated_learning_stage.sh
+###1. run federated_learning_stage.sh
 Pre-train model parameters
 ```
 sh federated_learning_stage.sh
@@ -55,7 +55,7 @@ nohup python -u experiments.py --model=resnet \
     --init_seed=0 >nohup.out&
 	
 ```
-####2. run adaptive_data_generation_stage.sh
+###2. run adaptive_data_generation_stage.sh
 ```
 sh adaptive_data_generation_stage.sh
 ```
