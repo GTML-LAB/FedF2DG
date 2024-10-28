@@ -19,7 +19,7 @@ If you find our work is useful for your work, please kindly cite our paper.
 
 ## Framework
 
-![framework](./framework.pdf)
+![framework](./framework.png)
 
 
 ## Run the script
