@@ -1,0 +1,22 @@
+nohup python -u experiments.py --model=resnet \
+    --dataset=cifar10 \
+    --alg=scaffold \
+    --lr=0.01 \
+    --batch-size=64 \
+    --epochs=5 \
+    --n_parties=10 \
+    --mu=0.01 \
+    --rho=0.9 \
+    --comm_round=80 \
+    --reg=1e-5 \
+    --partition=noniid-labeldir \
+    --beta=0.05 \
+    --device='cuda:0' \
+    --datadir='./data/' \
+    --logdir='./logs/test/' \
+    --noise=0 \
+    --sample=1 \
+    --label_noise_type='None' \
+    --label_noise_rate=0.0 \
+    --init_seed=0 >nohup.out&
+	

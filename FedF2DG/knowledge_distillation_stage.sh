@@ -1,0 +1,21 @@
+nohup python -u experiments.py --model=resnet \
+    --dataset=cifar10 \
+    --alg=knowledge_distillation \
+    --batch-size=64 \
+    --n_parties=10 \
+    --mu=0.01 \
+    --rho=0.9 \
+    --reg=1e-3 \
+    --partition=noniid-labeldir \
+    --beta=0.05\
+    --device='cuda:0' \
+    --logdir='./logs/test/' \
+    --noise=0 \
+    --sample=1 \
+    --label_noise_type='None' \
+    --label_noise_rate=0.0 \
+    --kd_epochs = 30\
+    --kd_lr = 0.01\
+    --weight_decay = 1e-4\
+    --init_seed=0 >nohup.out&
+	

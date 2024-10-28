@@ -1,0 +1,23 @@
+nohup python -u experiments.py --model=resnet \
+    --dataset=cifar10 \
+    --alg=adaptive_data_generation \
+    --lr=0.01 \
+    --batch-size=64 \
+    --n_parties=10 \
+    --mu=0.01 \
+    --rho=0.9 \
+    --reg=1e-5 \
+    --partition=noniid-labeldir \
+    --beta=0.05 \
+    --device='cuda:0' \
+    --datadir='./data/' \
+    --logdir='./logs/test/' \
+    --noise=0 \
+    --sample=1 \
+    --label_noise_type='None' \
+    --label_noise_rate=0.0 \
+    --bs=256 \
+    --num_batch=10 \
+    --cig_scale=0.0 \
+    --init_seed=0 >nohup.out&
+	
