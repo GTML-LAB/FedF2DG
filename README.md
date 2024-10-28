@@ -19,9 +19,7 @@ If you find our work is useful for your work, please kindly cite our paper.
 
 ## Framework
 
-
-![overview](./overview.png)
-
+![framework](./framework.pdf)
 
 
 ## Run the script
@@ -41,12 +39,12 @@ nohup python -u experiments.py --model=resnet \
     --n_parties=10 \
     --mu=0.01 \
     --rho=0.9 \
-    --comm_round=20 \
+    --comm_round=80 \
     --reg=1e-5 \
     --partition=noniid-labeldir \
     --beta=0.05 \
     --device='cuda:0' \
-    --datadir='/home/zsr/data/' \
+    --datadir='./data/' \
     --logdir='./logs/test/' \
     --noise=0 \
     --sample=1 \
@@ -55,6 +53,7 @@ nohup python -u experiments.py --model=resnet \
     --init_seed=0 >nohup.out&
 ```
 ### 2. run adaptive_data_generation_stage.sh
+Adaptive data generation
 ```
 sh adaptive_data_generation_stage.sh
 ```
@@ -71,7 +70,7 @@ nohup python -u experiments.py --model=resnet \
     --partition=noniid-labeldir \
     --beta=0.05 \
     --device='cuda:0' \
-    --datadir='/home/zsr/data/' \
+    --datadir='./data/' \
     --logdir='./logs/test/' \
     --noise=0 \
     --sample=1 \
@@ -83,6 +82,7 @@ nohup python -u experiments.py --model=resnet \
     --init_seed=0 >nohup.out&
 ```
 ### 3. run knowledge_distillation_stage.sh
+Knowledge distillation
 ```
 sh knowledge_distillation_stage.sh
 ```
@@ -128,7 +128,7 @@ nohup python -u experiments.py --model=resnet \
     --partition=noniid-labeldir \
     --beta=0.05 \
     --device='cuda:0' \
-    --datadir='/home/zsr/data/' \
+    --datadir='./data/' \
     --logdir='./logs/test/' \
     --noise=0 \
     --sample=1 \
