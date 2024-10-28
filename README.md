@@ -147,7 +147,7 @@ nohup python -u experiments.py --model=resnet \
 #### 1. Basic Parameters
 
 >+ **init_seed**: seed for reproducibility, default is 0
->+ **alg**: traning method, choices in {'fedavg', 'fedprox', 'scaffold', 'fednova', 'moon'}, default is 'fedavg'
+>+ **alg**: traning method, choices in {'fedavg', 'fedprox', 'scaffold', 'fednova', 'moon', 'local_training', 'adaptive_data_generation', 'knowledge_distillation', 'knowledge_distillation_Rcompete'}, default is 'fedavg', and {'adaptive_data_generation', 'knowledge_distillation', 'knowledge_distillation_Rcompete'} belong to FedF2DG.
 >+ **dataset**: training dataset, choices in {'CIFAR10', 'CIFAR100','SVHN'}, default is 'CIFAR10'
 >+ **lr**: client learning rate, default is 0.01
 >+ **epochs**: number of local epochs, default is 5
